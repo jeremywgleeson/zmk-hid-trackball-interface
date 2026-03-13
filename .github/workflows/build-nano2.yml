@@ -25,19 +25,16 @@ jobs:
         run: |
           cp -r trackball_firmware/qmk/keyboards/ploopyco/nano_2/keymaps/lkbm \
             $HOME/qmk_firmware/keyboards/ploopyco/nano_2/keymaps/lkbm
-          ls -la $HOME/qmk_firmware/keyboards/ploopyco/nano_2/
-          ls -la $HOME/qmk_firmware/keyboards/ploopyco/nano_2/keymaps/
 
       - name: Compile
         run: |
           cd $HOME/qmk_firmware
-          make ploopyco/nano_2:lkbm
-
-      - name: Find firmware
-        run: find $HOME/qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" 2>/dev/null | head -20
+          make ploopyco/nano_2/rev2_003:lkbm
 
       - name: Copy firmware
-        run: cp $HOME/qmk_firmware/*.uf2 $GITHUB_WORKSPACE/ 2>/dev/null || cp $HOME/qmk_firmware/.build/*.uf2 $GITHUB_WORKSPACE/
+        run: |
+          find $HOME/qmk_firmware -name "*.uf2" | head -5
+          cp $HOME/qmk_firmware/*.uf2 $GITHUB_WORKSPACE/ 2>/dev/null || cp $HOME/qmk_firmware/.build/*.uf2 $GITHUB_WORKSPACE/
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
