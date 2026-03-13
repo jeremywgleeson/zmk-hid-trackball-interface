@@ -14,22 +14,24 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install QMK
-        run: |
-          python3 -m pip install qmk
+        run: python3 -m pip install qmk
 
       - name: Setup QMK
         run: |
           qmk setup -y -H $HOME/qmk_firmware
+          qmk doctor || true
 
       - name: Copy keymap
         run: |
           cp -r trackball_firmware/qmk/keyboards/ploopyco/nano_2/keymaps/lkbm \
             $HOME/qmk_firmware/keyboards/ploopyco/nano_2/keymaps/lkbm
+          ls -la $HOME/qmk_firmware/keyboards/ploopyco/nano_2/
+          ls -la $HOME/qmk_firmware/keyboards/ploopyco/nano_2/keymaps/
 
       - name: Compile
         run: |
           cd $HOME/qmk_firmware
-          qmk compile -kb ploopyco/nano_2 -km lkbm
+          make ploopyco/nano_2:lkbm
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
