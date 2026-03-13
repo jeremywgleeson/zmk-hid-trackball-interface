@@ -33,8 +33,11 @@ jobs:
           cd $HOME/qmk_firmware
           make ploopyco/nano_2:lkbm
 
+      - name: Copy firmware
+        run: cp $HOME/qmk_firmware/*.uf2 $GITHUB_WORKSPACE/
+
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: ploopy_nano_2_lkbm
-          path: ~/qmk_firmware/*.uf2
+          path: "*.uf2"
