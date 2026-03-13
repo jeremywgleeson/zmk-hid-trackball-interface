@@ -68,20 +68,6 @@ uint32_t scroll_lock_timeout(uint32_t trigger_time, void *cb_arg) {
 }
 
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    // Signal mouse activity to ZMK via ScrollLock
-    if (mouse_report.x + mouse_report.y > 0) {
-        if (!host_keyboard_led_state().scroll_lock) {
-            tap_code(KC_SCROLL_LOCK);
-        }
-
-        if (!scroll_lock_timer_enabled) {
-            scroll_lock_timer_enabled = true;
-            scroll_lock_timer = defer_exec(SCROLL_LOCK_TIMEOUT, scroll_lock_timeout, NULL);
-        } else {
-            extend_deferred_exec(scroll_lock_timer, SCROLL_LOCK_TIMEOUT);
-        }
-    }
-
     // Convert mouse movement to scroll when scroll mode is active
     if (scroll_enabled) {
         delta_x += mouse_report.x;
