@@ -27,7 +27,6 @@
 // is 55ms for a single tap.
 // https://recordsetter.com/world-record/index-finger-taps-minute/46066
 #define LED_CMD_TIMEOUT 25
-#define SCROLL_LOCK_TIMEOUT 200
 #define DELTA_X_THRESHOLD 60
 #define DELTA_Y_THRESHOLD 15
 
@@ -45,9 +44,6 @@ static bool   in_cmd_window   = false;
 static int8_t delta_x         = 0;
 static int8_t delta_y         = 0;
 
-static deferred_token scroll_lock_timer;
-static bool           scroll_lock_timer_enabled = false;
-
 typedef struct {
     led_cmd_t led_cmd;
     uint8_t   num_lock_count;
@@ -58,14 +54,6 @@ typedef struct {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(KC_NO)
 };
-
-uint32_t scroll_lock_timeout(uint32_t trigger_time, void *cb_arg) {
-    if (host_keyboard_led_state().scroll_lock) {
-        tap_code(KC_SCROLL_LOCK);
-    }
-    scroll_lock_timer_enabled = false;
-    return 0;
-}
 
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     // Convert mouse movement to scroll when scroll mode is active
