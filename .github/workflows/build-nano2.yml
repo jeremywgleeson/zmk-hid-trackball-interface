@@ -33,8 +33,11 @@ jobs:
           cd $HOME/qmk_firmware
           make ploopyco/nano_2:lkbm
 
+      - name: Find firmware
+        run: find $HOME/qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" 2>/dev/null | head -20
+
       - name: Copy firmware
-        run: cp $HOME/qmk_firmware/*.uf2 $GITHUB_WORKSPACE/
+        run: cp $HOME/qmk_firmware/*.uf2 $GITHUB_WORKSPACE/ 2>/dev/null || cp $HOME/qmk_firmware/.build/*.uf2 $GITHUB_WORKSPACE/
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
