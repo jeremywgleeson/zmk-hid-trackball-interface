@@ -16,10 +16,15 @@ jobs:
       - name: Install QMK
         run: python3 -m pip install qmk
 
+      - name: Install ARM toolchain
+        run: |
+          wget -q https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz
+          sudo tar xf arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz -C /opt/
+          echo "/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin" >> $GITHUB_PATH
+
       - name: Setup QMK
         run: |
           qmk setup -y -H $HOME/qmk_firmware
-          qmk doctor || true
 
       - name: Copy keymap
         run: |
