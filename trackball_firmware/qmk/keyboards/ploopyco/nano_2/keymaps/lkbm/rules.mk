@@ -1,1 +1,1 @@
-DEFERRED_EXEC_ENABLE = yes
+# No extra features needed for NumLock-based scroll
