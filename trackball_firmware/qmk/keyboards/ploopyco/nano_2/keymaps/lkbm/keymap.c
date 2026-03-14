@@ -27,8 +27,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    // Scroll when NumLock is on, pointer when off
-    if (host_keyboard_led_state().num_lock) {
+    // Scroll when CapsLock is on, pointer when off
+    if (host_keyboard_led_state().caps_lock) {
         delta_x += mouse_report.x;
         delta_y += mouse_report.y;
 
